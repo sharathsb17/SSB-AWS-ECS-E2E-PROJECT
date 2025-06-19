@@ -22,12 +22,14 @@ jobs:
       if: ${{ github.event.head_commit.message != '' }}
       run: |
         cd own-microservices/Application-1
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/simpleapp1:${{ GITHUB_SHA::7 }} .
-        docker push ${{ secrets.DOCKER_USERNAME }}/simpleapp1:${{ GITHUB_SHA::7 }}
+        SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/simpleapp1:$SHORT_SHA .
+        docker push ${{ secrets.DOCKER_USERNAME }}/simpleapp1:$SHORT_SHA
 
     - name: Build and push Application-2 image
       if: ${{ github.event.head_commit.message != '' }}
       run: |
         cd own-microservices/Application-2
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/simpleapp2:${{ GITHUB_SHA::7 }} .
-        docker push ${{ secrets.DOCKER_USERNAME }}/simpleapp2:${{ GITHUB_SHA::7 }}
+        SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/simpleapp2:$SHORT_SHA .
+        docker push ${{ secrets.DOCKER_USERNAME }}/simpleapp2:$SHORT_SHA
