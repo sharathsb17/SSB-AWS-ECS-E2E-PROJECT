@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing dependencies...
+  pre_build:
+    commands:
+      - echo Pre-build phase...
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_URI="ssbdock/simpleapp2:$IMAGE_TAG"
+  build:
+    commands:
+      - echo Writing imagedefinitions.json file...
+      - printf '[{"name":"app2","imageUri":"%s"}]' "$IMAGE_URI" > imagedefinitions.json
+artifacts:
+  files:
+    - imagedefinitions.json
